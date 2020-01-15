@@ -4,11 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const sqlite3 = require('sqlite3').verbose();
 
 var index = require('./routes/index');
 var eraseEvents = require('./routes/eraseEvents');
 var events = require('./routes/events');
 var actor = require('./routes/actor');
+
+const db = require('./database/').connect();
 
 var app = express();
 
@@ -24,6 +27,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Attach db connection to the req object
+app.use((req, res, next) => {
+  req.dbConnection = db;
+  console.log('Connected to kelvin dbs 3.');
+  next();
+});
 
 app.use('/', index);
 app.use('/erase', eraseEvents);

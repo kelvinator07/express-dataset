@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
+// Database SQL query schema
 const DATABASE_SCHEMA = `
     CREATE TABLE IF NOT EXISTS actors (
         id integer(11) NOT NULL PRIMARY KEY,
@@ -26,10 +27,10 @@ const DATABASE_SCHEMA = `
 exports.connect = () => {
     return new sqlite3.Database(`${__dirname}/database.sqlite`, function (err) {
         if (err) { throw new Error(err); }
-        console.log('Connected to kelvin dbs 1.');
+        console.log('Connected to kelvin database 1.');
         this.exec(DATABASE_SCHEMA, (err) => {
             if (err) { throw new Error(err) }
-            console.log('Connected to kelvin dbs 2.');
+            console.log('Connected to kelvin database 2.');
         });
     });
 };
